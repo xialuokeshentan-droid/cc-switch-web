@@ -20,8 +20,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
     && rm -rf /var/lib/apt/lists/*
 RUN useradd -m ccswitch
 COPY --from=rust-builder /app/src-tauri/target/release/examples/server /usr/local/bin/cc-switch-server
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 USER ccswitch
 WORKDIR /home/ccswitch
 ENV HOST=0.0.0.0 PORT=3000
 EXPOSE 3000
-CMD ["cc-switch-server"]
+ENTRYPOINT ["/entrypoint.sh"]
