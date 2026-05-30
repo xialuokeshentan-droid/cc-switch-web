@@ -16,7 +16,7 @@ WORKDIR /app/src-tauri
 RUN cargo build --release --no-default-features --features web-server --example server
 
 FROM debian:bookworm-slim
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libssl3 \
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates libssl3 curl \
     && rm -rf /var/lib/apt/lists/*
 RUN useradd -m ccswitch
 COPY --from=rust-builder /app/src-tauri/target/release/examples/server /usr/local/bin/cc-switch-server
